@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace LexicontactAPI.Controllers
@@ -10,18 +12,23 @@ namespace LexicontactAPI.Controllers
         private readonly ApplicationDbContext _ctx = new ApplicationDbContext();
 
         // GET api/languages
-        public IEnumerable<Language> Get()
+        public async Task<IEnumerable<Language>> Get()
         {
-            return _ctx.Language.ToList();
+            return await _ctx.Language.ToListAsync();
         }
 
-        // GET api/languages/076BE845-86F0-43C8-A50F-07A038FD2108
-        public Language Get(string id)
+        // GET api/languages/076be845-86f0-43c8-a50f-07a038fd2108
+        public async Task<IHttpActionResult> Get(string id)
         {
             Guid languageGuid = new Guid(id);
-            // TODO Error handling?
-            Language result = _ctx.Language.Find(languageGuid);
-            return result;
+            var result = await _ctx.Language.FindAsync(languageGuid);
+
+            if (result == null)
+            {
+                return Ok(Enumerable.Empty<Language>());
+            }
+
+            return Ok(result);
         }
     }
 }
