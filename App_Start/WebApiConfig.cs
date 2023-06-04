@@ -16,6 +16,11 @@ namespace LexicontactAPI
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
+                name: "LanguagesApi",
+                routeTemplate: "api/{controller}/{guid}",
+                defaults: new { controller = "Languages", guid = RouteParameter.Optional }
+            );
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
