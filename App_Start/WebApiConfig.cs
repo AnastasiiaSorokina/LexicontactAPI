@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Newtonsoft.Json.Serialization;
 
 namespace LexicontactAPI
@@ -25,6 +26,9 @@ namespace LexicontactAPI
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            var corsAttribute = new EnableCorsAttribute("http://localhost", "*", "*");
+            config.EnableCors(corsAttribute);
 
             // Set JSON formatter as default one and remove XmlFormatter
             var jsonFormatter = config.Formatters.JsonFormatter;
